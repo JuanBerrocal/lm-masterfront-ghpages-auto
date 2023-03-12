@@ -22,10 +22,10 @@ jobs:
           git config --global user.email "cd-user@ghpages-auto.com"
           git config --global user.name "cd-user"
       - name: Install
-        uses: npm ci
+        run: npm ci
       - name: Build
-        uses: npm run build
+        run: npm run build
       - name: Deploy
-        uses: npm run deploy -- -r git@github.com:JuanBerrocal/lm-masterfront-ghpages-auto.git
+        run: npm run deploy -- -r git@github.com:JuanBerrocal/lm-masterfront-ghpages-auto.git
 
 
