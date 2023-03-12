@@ -1,0 +1,31 @@
+
+name: Contiuous deployment workflow
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Create ssh keys
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
+      - name: Configs git user
+        run: |
+          git config --global user.email "cd-user@ghpages-auto.com"
+          git config --global user.name "cd-user"
+      - name: Install
+        uses: npm ci
+      - name: Build
+        uses: npm run build
+      - name: Deploy
+        uses: npm run deploy -- -r git@github.com:JuanBerrocal/lm-masterfront-ghpages-auto.git
+
+
